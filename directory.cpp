@@ -9,7 +9,7 @@ Directory::Directory()
 	sibling = nullptr;
 }
 
-Directory::Directory(std::String newName)
+Directory::Directory(std::string newName)
 {
 	parent = nullptr;
 	child = nullptr;
@@ -37,12 +37,12 @@ T* Directory::getChild()
 	return child;
 }
 
-void Directory::setName(std::String newName)
+void Directory::setName(std::string newName)
 {
 	name = newName;
 }
 
-std::String Directory::getName()
+std::string Directory::getName()
 {
 	return name;
 }

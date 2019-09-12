@@ -8,14 +8,16 @@ class File
 {
 private:
 	Directory* parent;
-	std::String name;
+	std::string name;
 	T* sibling
 
 public:
+	File()
+	File(std::string newName);
 	void setParent(Directory* newParent);
 	Directory* getParent();
 	void setSibling(T* newSibling);
 	T* getSibling();
-	void setName(std::String);
-	std::String getName();
+	void setName(std::string newName);
+	std::string getName();
 }
