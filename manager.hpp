@@ -23,6 +23,7 @@ public:
 	void rm(std::string name); //locates and deletes file or directory
 	void bye(); //exits the program
 	void whereis(std::string name); //locates and prints location of first occurance of file/directory
+	FileDirectory* getCurrentDir();
 };
 
 #endif
