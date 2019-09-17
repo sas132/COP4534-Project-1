@@ -30,5 +30,15 @@ int main()
 	std::cout << "fil1's parent: " << fil1.getParent()->getName() << std::endl;
 	//fil1's sibling gets segmentation fault, works properly
 	//std::cout << "fil1's sibling: " << fil1.getSibling()->getName() << std::endl << std::endl;
+	
+	std::cout << "all file_directory tests pass" << std::endl << std::endl << std::endl;
+	
+	Manager newMan;
+	newMan.mkdir("dir3");
+	FileDirectory* tempDir = newMan.getCurrentDir();
+	std::cout << "tempDir's name: " << tempDir->getName() << std::endl;
+	std::cout << "tempDir's child: " << tempDir->getChild()->getName() << std::endl;
+	std::cout << "did the name work??\n\n";
+	
 	return 0;
 }
