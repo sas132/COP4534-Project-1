@@ -28,4 +28,6 @@ public:
 	std::string getName();
 	void setDirectory(bool isDir);
 	bool getDirectory();
-}
+};
+
+#endif

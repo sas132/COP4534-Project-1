@@ -6,4 +6,5 @@ OBJECTS = file_reader.o manager.o file_directory.o
 main: $(OBJECTS) main.o
 	$(CXX) $(CXXFLAGS) -o $@ $^
 
-clean: $(OBJECTS) *.o *.gc* core main
+clean:
+	$(RM) *.o *.gch core main
