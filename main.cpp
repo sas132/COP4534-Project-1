@@ -5,8 +5,8 @@
 
 int main()
 {
-	FileDirectory dir1 = new Directory();
+	FileDirectory dir1;
 	dir1.setName("dir1");
-	cout << dir1.getName() << endl;
+	std::cout << dir1.getName() << std::endl;
 	return 0;
 }

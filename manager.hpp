@@ -1,18 +1,17 @@
 #ifndef MANAGER
 #define MANAGER
 
-#include "file.hpp"
-#include "directory.hpp"
+#include "file_directory.hpp"
 #include <iostream>
 #include <string>
 
 class Manager
 {
 private:
-	Directory* currentDir;
+	FileDirectory* currentDir;
 	
 public:
-	Manager() //how will this be used??
+	Manager(); //how will this be used??
 	void print(); //is this going to be needed? idk yet
 	void ls(); //lists all files/directories in current directory
 	void mkdir(std::string name); //makes a new directory as child of current directory
@@ -24,4 +23,6 @@ public:
 	void rm(std::string name); //locates and deletes file or directory
 	void bye(); //exits the program
 	void whereis(std::string name); //locates and prints location of first occurance of file/directory
-}
+};
+
+#endif
