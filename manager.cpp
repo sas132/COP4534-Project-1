@@ -5,7 +5,7 @@
 
 Manager::Manager()
 {
-	currentDir = new FileDirectory();
+	//currentDir = new FileDirectory();
 }
 
 void Manager::print()
@@ -14,34 +14,36 @@ void Manager::print()
 }
 
 //lists all files/directories in current directory
-void Manager::ls()
+void Manager::ls(FileDirectory &currentDir)
 {
-	if(currentDir->getChild() == nullptr)
+	if(currentDir.getChild() == nullptr)
 	{
 		std::cout << "there are no files or directories in this directory\n";
 	}
 	else
 	{
-		FileDirectory* tempDir = currentDir;
-		std::string allChilds= "";
-	
-		do{
-			allChilds += (tempDir->getChild()->getName() + "\n");
-			tempDir = tempDir->getChild();
-		}while(tempDir->getChild() != nullptr);
-		
-		std::cout << allChilds;
+		std::cout << currentDir.getName() << " has the following children:\n";
+		FileDirectory* tempDir = currentDir.getChild();
+
+		while(tempDir != nullptr){
+			std::cout << "inside while\n";
+			std::cout << tempDir->getName().length() <<std::endl;
+			std::cout << tempDir->getName() << std::endl;
+			tempDir = tempDir->getSibling();	
+		};
 	}
 }
 
 //makes a new directory as child of current directory
-void Manager::mkdir(std::string name)
+//moving to a different class
+/*void Manager::mkdir(FileDirectory &currentDir, std::string name)
 {
-	FileDirectory newDir(name, true);
-	newDir.setParent(currentDir);
-	newDir.setSibling(currentDir->getChild());
-	currentDir->setChild(&newDir);
-}
+	FileDirectory newDir = FileDirectory(name, true);
+	newDir.setParent(&currentDir);
+	newDir.setSibling(currentDir.getChild());
+	currentDir.setChild(&newDir);
+	std::cout << currentDir.getChild()->getName() << std::endl;
+}*/
 
 //changes active directory. if ".." then change to parent.
 void Manager::cd(std::string name)
@@ -50,12 +52,23 @@ void Manager::cd(std::string name)
 }
 
 //gives path of current directory as "Sarah/root/nextdir/etc"
-void Manager::pwd()
+void Manager::pwd(FileDirectory currentDir)
 {
-
+	std::string totalPath = "";
+	FileDirectory* tempDir = &currentDir;
+	
+	while(tempDir != nullptr){
+		totalPath = ("/" + tempDir->getName()) + totalPath;
+		tempDir = tempDir->getParent();
+	}
+	
+	totalPath = "Sarah" + totalPath;
+	
+	std::cout << totalPath << std::endl;
 }
 
 //adds a new file as child of current directory
+//moving to a different class
 void Manager::addf(std::string name)
 {
 
@@ -64,7 +77,7 @@ void Manager::addf(std::string name)
 //renames directory/file nameA to nameB
 void Manager::mv(std::string nameA, std::string nameB)
 {
-
+	
 }
 
 //makes deep copy of directory/file nameA to nameB
@@ -93,5 +106,5 @@ void whereis(std::string name)
 
 FileDirectory* Manager::getCurrentDir()
 {
-	return currentDir;
+	return nullptr;
 }

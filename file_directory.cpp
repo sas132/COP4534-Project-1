@@ -11,16 +11,6 @@ FileDirectory::FileDirectory()
 	isDirectory = true;
 }
 
-//for declaring any files
-FileDirectory::FileDirectory(std::string newName)
-{
-	parent = nullptr;
-	child = nullptr;
-	sibling = nullptr;
-	name = newName;
-	isDirectory = false;
-}
-
 //for declaring any directories
 FileDirectory::FileDirectory(std::string newName, bool isDir)
 {
@@ -28,7 +18,7 @@ FileDirectory::FileDirectory(std::string newName, bool isDir)
 	child = nullptr;
 	sibling = nullptr;
 	name = newName;
-	isDirectory = isDir;
+	isDirectory = true;
 }
 
 //for updating parent
