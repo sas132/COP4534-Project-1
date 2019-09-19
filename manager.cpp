@@ -26,7 +26,7 @@ void Manager::ls(FileDirectory &currentDir)
 		FileDirectory* tempDir = currentDir.getChild();
 
 		while(tempDir != nullptr){
-			if(tempDir->getDirectory())
+			if(tempDir->getDirectory() == true)
 			{
 				std::cout << "D ";
 			}
@@ -40,17 +40,6 @@ void Manager::ls(FileDirectory &currentDir)
 	}
 }
 
-//makes a new directory as child of current directory
-//moving to a different class
-/*void Manager::mkdir(FileDirectory &currentDir, std::string name)
-{
-	FileDirectory newDir = FileDirectory(name, true);
-	newDir.setParent(&currentDir);
-	newDir.setSibling(currentDir.getChild());
-	currentDir.setChild(&newDir);
-	std::cout << currentDir.getChild()->getName() << std::endl;
-}*/
-
 //changes active directory. if ".." then change to parent.
 void Manager::cd(std::string name)
 {
@@ -58,26 +47,19 @@ void Manager::cd(std::string name)
 }
 
 //gives path of current directory as "Sarah/root/nextdir/etc"
-void Manager::pwd(FileDirectory currentDir)
+std::string Manager::pwd(FileDirectory* currentDir)
 {
 	std::string totalPath = "";
-	FileDirectory* tempDir = &currentDir;
+	FileDirectory* tempDir = currentDir;
 	
 	while(tempDir != nullptr){
 		totalPath = ("/" + tempDir->getName()) + totalPath;
 		tempDir = tempDir->getParent();
 	}
 	
-	totalPath = "Sarah" + totalPath;
+	totalPath = "Sarah" + totalPath +"\n";
 	
-	std::cout << totalPath << std::endl;
-}
-
-//adds a new file as child of current directory
-//moving to a different class
-void Manager::addf(std::string name)
-{
-
+	return totalPath;
 }
 
 //renames directory/file nameA to nameB
@@ -104,16 +86,28 @@ void Manager::rm(std::string name)
 //exits the program
 void Manager::bye()
 {
-
+	//must send all files to be deleted
 }
 
 //locates and prints location of first occurance of file/directory
-void whereis(std::string name)
+std::string whereis(std::string name, FileDirectory* currentDir)
 {
-
-}
-
-FileDirectory* Manager::getCurrentDir()
-{
-	return nullptr;
+	/*if(currentDir->getName() == name)
+	{
+		currentDir = currentDir->getParent();
+		return pwd(&currentDir);
+	}
+	else if(currentDir->getSibling() != nullptr || currentDir->getChild() != nullptr)
+	{
+		if(currentDir->getSibling() != nullptr)
+		{
+			return whereis(name, currentDir->getSibling());
+		}
+		if(currentDir->getChild() != nullptr)
+		{
+			return whereis(name, currentDir->getChild());
+		}
+	}*/
+	return name + " not found.";
+	
 }

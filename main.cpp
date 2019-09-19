@@ -1,6 +1,7 @@
 #include "file_reader.hpp"
 #include "manager.hpp"
 #include "file_directory.hpp"
+#include "director.hpp"
 #include <iostream>
 
 int main()
@@ -33,15 +34,30 @@ int main()
 	
 //	std::cout << "all file_directory tests pass" << std::endl << std::endl << std::endl;
 
-	FileDirectory root = FileDirectory();
+	/*FileDirectory root = FileDirectory();
 	FileDirectory dir3 = FileDirectory("dir3", true);
 	root.setChild(&dir3);
 	dir3.setParent(&root);
+	FileDirectory dir4 = FileDirectory("dir4", false);
+	dir4.setSibling(&dir3);
+	root.setChild(&dir4);
+	dir4.setParent(&root);
+
 	Manager newMan;
 	newMan.ls(root);
-	newMan.pwd(dir3);
+	std::cout << newMan.pwd(&dir3);
 	newMan.mv(dir3, "directory 3");
-	newMan.pwd(dir3);
+	std::cout << newMan.pwd(&dir3);
+	std::string test1 = "directory 3";
+	std::string test2 = "dir3";
+	//std::cout << newMan.whereis(test2, &root);*/
 	
+
+	Director dir;
+	std::string commands[3][3] = {	{"ls", "", ""},
+					{"mkdir", "dir1", ""},
+					{"ls", "", ""}
+				     };
+	dir.handler(commands);
 	return 0;
 }
