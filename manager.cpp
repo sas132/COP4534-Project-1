@@ -35,6 +35,15 @@ void Manager::ls(FileDirectory &currentDir)
 	}
 }
 
+void Director::mkdir(std::string name, bool isDir)
+{
+	FileDirectory newDir = FileDirectory(name, isDir);
+	newDir.setParent(currentDir);
+	newDir.setSibling(currentDir->getChild());
+	currentDir->setChild(&newDir);
+	std::cout << currentDir->getChild()->getName() << std::endl;
+}
+
 //changes active directory. if ".." then change to parent.
 void Manager::cd(std::string name)
 {
