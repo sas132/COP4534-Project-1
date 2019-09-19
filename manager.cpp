@@ -5,7 +5,7 @@
 
 Manager::Manager()
 {
-	//currentDir = new FileDirectory();
+	currentDir = new FileDirectory();
 }
 
 void Manager::print()
@@ -41,9 +41,12 @@ void Manager::ls(FileDirectory &currentDir)
 }
 
 //changes active directory. if ".." then change to parent.
-void Manager::cd(std::string name)
+void Director::cd(std::string name)
 {
-
+	if(name == "..")
+	{
+		currentDir = currentDir->getParent();
+	}
 }
 
 //gives path of current directory as "Sarah/root/nextdir/etc"
@@ -89,25 +92,73 @@ void Manager::bye()
 	//must send all files to be deleted
 }
 
-//locates and prints location of first occurance of file/directory
-std::string whereis(std::string name, FileDirectory* currentDir)
+FileDirectory* Director::search(std::string name, FileDirectory* tempDir)
 {
-	/*if(currentDir->getName() == name)
+	if(tempDir->getName() == name)
 	{
-		currentDir = currentDir->getParent();
-		return pwd(&currentDir);
+		tempDir = tempDir->getParent();
+		return tempDir;
 	}
-	else if(currentDir->getSibling() != nullptr || currentDir->getChild() != nullptr)
+	else if(tempDir->getSibling() != nullptr || tempDir->getChild() !=nullptr)
 	{
-		if(currentDir->getSibling() != nullptr)
+		if(tempDir->getSibling() != nullptr)
 		{
-			return whereis(name, currentDir->getSibling());
+			return search(name, tempDir->getSibling());
 		}
-		if(currentDir->getChild() != nullptr)
+		if(tempDir->getChild() != nullptr)
 		{
-			return whereis(name, currentDir->getChild());
+			return search(name, tempDir->getChild());
 		}
-	}*/
-	return name + " not found.";
-	
+	}
+	return nullptr;
+}
+
+void Director::handler(std::string command[3][3])
+{
+	Manager newMan;
+	std::cout << "made it to the function\n";
+	for(int i = 0; i < 3; i++){
+	if(command[i][0] == "ls")
+	{
+		std::cout << "made it to the right command\n";
+		newMan.ls(*currentDir);
+	}
+	else if(command[i][0] == "mkdir")
+	{
+		mkdir(command[i][1], true);
+	}
+	else if(command[i][0] == "cd")
+	{
+		cd(command[i][1]);
+	}
+	else if(command[i][0] == "pwd")
+	{
+		newMan.pwd(currentDir);
+	}
+	else if(command[i][0] == "addf")
+	{
+		mkdir(command[i][1], false);
+	}
+	else if(command[i][0] == "mv")
+	{
+		mv(command[i][1], command[i][2]);
+	}
+	else if(command[i][0] == "cp")
+	{
+		cp(command[i][1], command[i][2]);
+	}
+	else if(command[i][0] == "rm")
+	{
+		FileDirectory* tempDir = search(command[i][1], currentDir);
+		rm(tempDir);
+	}
+	else if(command[i][0] == "bye")
+	{
+		rm(root);
+	}
+	else if(command[i][0] == "whereis")
+	{
+		FileDirectory* tempDir = search(command[i][1], currentDir);
+		newMan.pwd(tempDir);
+	}}
 }
