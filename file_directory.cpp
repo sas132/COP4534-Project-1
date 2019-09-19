@@ -18,7 +18,7 @@ FileDirectory::FileDirectory(std::string newName, bool isDir)
 	child = nullptr;
 	sibling = nullptr;
 	name = newName;
-	isDirectory = true;
+	isDirectory = isDir;
 }
 
 //for updating parent

@@ -8,11 +8,6 @@ Manager::Manager()
 	currentDir = new FileDirectory();
 }
 
-void Manager::print()
-{
-
-}
-
 //lists all files/directories in current directory
 void Manager::ls(FileDirectory &currentDir)
 {
@@ -41,7 +36,7 @@ void Manager::ls(FileDirectory &currentDir)
 }
 
 //changes active directory. if ".." then change to parent.
-void Director::cd(std::string name)
+void Manager::cd(std::string name)
 {
 	if(name == "..")
 	{
@@ -92,7 +87,7 @@ void Manager::bye()
 	//must send all files to be deleted
 }
 
-FileDirectory* Director::search(std::string name, FileDirectory* tempDir)
+FileDirectory* Manager::search(std::string name, FileDirectory* tempDir)
 {
 	if(tempDir->getName() == name)
 	{
@@ -113,15 +108,14 @@ FileDirectory* Director::search(std::string name, FileDirectory* tempDir)
 	return nullptr;
 }
 
-void Director::handler(std::string command[3][3])
+void Manager::handler(std::string command[3][3])
 {
-	Manager newMan;
 	std::cout << "made it to the function\n";
 	for(int i = 0; i < 3; i++){
 	if(command[i][0] == "ls")
 	{
 		std::cout << "made it to the right command\n";
-		newMan.ls(*currentDir);
+		ls(*currentDir);
 	}
 	else if(command[i][0] == "mkdir")
 	{
@@ -133,7 +127,7 @@ void Director::handler(std::string command[3][3])
 	}
 	else if(command[i][0] == "pwd")
 	{
-		newMan.pwd(currentDir);
+		pwd(currentDir);
 	}
 	else if(command[i][0] == "addf")
 	{
@@ -159,6 +153,6 @@ void Director::handler(std::string command[3][3])
 	else if(command[i][0] == "whereis")
 	{
 		FileDirectory* tempDir = search(command[i][1], currentDir);
-		newMan.pwd(tempDir);
+		pwd(tempDir);
 	}}
 }

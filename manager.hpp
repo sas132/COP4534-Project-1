@@ -8,10 +8,9 @@
 class Manager
 {
 private:
-	
+	FileDirectory* currentDir;
 public:
 	Manager(); //how will this be used??
-	void print(); //is this going to be needed? idk yet
 	void ls(FileDirectory &currentDir); //lists all files/directories in current directory
 	//void mkdir(FileDirectory &currentDir, std::string name); //makes a new directory as child of current directory
 	void cd(std::string name); //changes active directory. if ".." then change to parent.
@@ -21,7 +20,8 @@ public:
 	void cp(std::string nameA, std::string nameB); //makes deep copy of directory/file nameA to nameB
 	void rm(std::string name); //locates and deletes file or directory
 	void bye(); //exits the program
-	//std::string whereis(std::string name, FileDirectory* currentDir); //locates and prints location of first occurance of file/directory
+	FileDirectory* search(std::string name, FileDirectory* tempDir);
+	void handler(std::string command[3][3]);	
 };
 
 #endif

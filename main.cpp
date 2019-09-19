@@ -1,7 +1,6 @@
 #include "file_reader.hpp"
 #include "manager.hpp"
 #include "file_directory.hpp"
-#include "director.hpp"
 #include <iostream>
 
 int main()
@@ -53,11 +52,11 @@ int main()
 	//std::cout << newMan.whereis(test2, &root);*/
 	
 
-	Director dir;
+	Manager newMan;
 	std::string commands[3][3] = {	{"ls", "", ""},
 					{"mkdir", "dir1", ""},
 					{"ls", "", ""}
 				     };
-	dir.handler(commands);
+	newMan.handler(commands);
 	return 0;
 }
