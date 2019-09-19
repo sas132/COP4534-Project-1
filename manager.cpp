@@ -6,36 +6,36 @@
 Manager::Manager()
 {
 	currentDir = new FileDirectory();
+	root = currentDir;
 }
 
 //lists all files/directories in current directory
-void Manager::ls(FileDirectory &currentDir)
+void Manager::ls()
 {
-	if(currentDir.getChild() == nullptr)
+	if(currentDir->getChild() == nullptr)
 	{
 		std::cout << "there are no files or directories in this directory\n";
 	}
 	else
 	{
-		std::cout << currentDir.getName() << " has the following children:\n";
-		FileDirectory* tempDir = currentDir.getChild();
-
+		std::cout << currentDir->getName() << " has the following children:\n";
+		FileDirectory* tempDir = currentDir->getChild();
 		while(tempDir != nullptr){
 			if(tempDir->getDirectory() == true)
 			{
-				std::cout << "D ";
+				std::cout << "D BIIIIITCH\n";
 			}
 			else
 			{
 				std::cout << "F ";
 			}
-			std::cout << tempDir->getName() << std::endl;
+			std::cout << tempDir->getName().length() << std::endl;
 			tempDir = tempDir->getSibling();	
 		};
 	}
 }
 
-void Director::mkdir(std::string name, bool isDir)
+void Manager::mkdir(std::string name, bool isDir)
 {
 	FileDirectory newDir = FileDirectory(name, isDir);
 	newDir.setParent(currentDir);
@@ -70,12 +70,11 @@ std::string Manager::pwd(FileDirectory* currentDir)
 }
 
 //renames directory/file nameA to nameB
-void Manager::mv(FileDirectory &nameA, std::string nameB)
+void Manager::mv(std::string nameA, std::string nameB)
 {
 	//need to implement a search for nameA
 	//temporarily using a call-by-reference
-	
-	nameA.setName(nameB);
+
 }
 
 //makes deep copy of directory/file nameA to nameB
@@ -85,7 +84,7 @@ void Manager::cp(std::string nameA, std::string nameB)
 }
 
 //locates and deletes file or directory
-void Manager::rm(std::string name)
+void Manager::rm(FileDirectory* tempDir)
 {
 
 }
@@ -124,7 +123,7 @@ void Manager::handler(std::string command[3][3])
 	if(command[i][0] == "ls")
 	{
 		std::cout << "made it to the right command\n";
-		ls(*currentDir);
+		ls();
 	}
 	else if(command[i][0] == "mkdir")
 	{
