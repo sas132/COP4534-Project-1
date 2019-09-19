@@ -10,38 +10,41 @@ Manager::Manager()
 }
 
 //lists all files/directories in current directory
-void Manager::ls()
+void Manager::ls(FileDirectory &tempDir)
 {
-	if(currentDir->getChild() == nullptr)
+	FileDirectory* tempDir2 = &tempDir;
+	if(tempDir2->getChild() == nullptr)
 	{
 		std::cout << "there are no files or directories in this directory\n";
 	}
 	else
 	{
-		std::cout << currentDir->getName() << " has the following children:\n";
-		FileDirectory* tempDir = currentDir->getChild();
-		while(tempDir != nullptr){
-			if(tempDir->getDirectory() == true)
+		std::cout << tempDir2->getName() << " has the following children:\n";
+		tempDir2 = tempDir2->getChild();
+		while(tempDir2 != nullptr){
+			if(tempDir2->getDirectory() == true)
 			{
-				std::cout << "D BIIIIITCH\n";
+			std::cout << "D BIIIIITCH\n";
 			}
 			else
 			{
 				std::cout << "F ";
 			}
-			std::cout << tempDir->getName().length() << std::endl;
-			tempDir = tempDir->getSibling();	
+			std::cout << tempDir2->getName() << std::endl;
+			tempDir2 = tempDir2->getSibling();	
 		};
 	}
 }
 
-void Manager::mkdir(std::string name, bool isDir)
+FileDirectory* Manager::mkdir(std::string name, bool isDir)
 {
-	FileDirectory newDir = FileDirectory(name, isDir);
-	newDir.setParent(currentDir);
-	newDir.setSibling(currentDir->getChild());
-	currentDir->setChild(&newDir);
+	FileDirectory* newDir = new FileDirectory(name, isDir);
+	newDir->setParent(currentDir);
+	newDir->setSibling(currentDir->getChild());
+	currentDir->setChild(newDir);
 	std::cout << currentDir->getChild()->getName() << std::endl;
+	ls(*currentDir);
+	return currentDir;
 }
 
 //changes active directory. if ".." then change to parent.
@@ -50,6 +53,10 @@ void Manager::cd(std::string name)
 	if(name == "..")
 	{
 		currentDir = currentDir->getParent();
+	}
+	else
+	{
+		
 	}
 }
 
@@ -123,11 +130,13 @@ void Manager::handler(std::string command[3][3])
 	if(command[i][0] == "ls")
 	{
 		std::cout << "made it to the right command\n";
-		ls();
+		ls(*currentDir);
 	}
 	else if(command[i][0] == "mkdir")
 	{
-		mkdir(command[i][1], true);
+		FileDirectory* fildr = mkdir(command[i][1], true);
+		std::cout << "made the directory.\n";
+		ls(*fildr);
 	}
 	else if(command[i][0] == "cd")
 	{

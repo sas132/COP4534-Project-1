@@ -12,8 +12,8 @@ private:
 	FileDirectory* root;
 public:
 	Manager(); //how will this be used??
-	void ls(); //lists all files/directories in current directory
-	void mkdir(std::string name, bool isDir);
+	void ls(FileDirectory &tempDir); //lists all files/directories in current directory
+	FileDirectory* mkdir(std::string name, bool isDir);
 	void cd(std::string name); //changes active directory. if ".." then change to parent.
 	std::string pwd(FileDirectory* currentDir); //gives path of current directory as "Sarah/root/nextdir/etc"
 	void addf(std::string name); //adds a new file as child of current directory
