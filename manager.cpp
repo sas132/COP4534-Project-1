@@ -26,8 +26,14 @@ void Manager::ls(FileDirectory &currentDir)
 		FileDirectory* tempDir = currentDir.getChild();
 
 		while(tempDir != nullptr){
-			std::cout << "inside while\n";
-			std::cout << tempDir->getName().length() <<std::endl;
+			if(tempDir->getDirectory())
+			{
+				std::cout << "D ";
+			}
+			else
+			{
+				std::cout << "F ";
+			}
 			std::cout << tempDir->getName() << std::endl;
 			tempDir = tempDir->getSibling();	
 		};
@@ -75,9 +81,12 @@ void Manager::addf(std::string name)
 }
 
 //renames directory/file nameA to nameB
-void Manager::mv(std::string nameA, std::string nameB)
+void Manager::mv(FileDirectory &nameA, std::string nameB)
 {
+	//need to implement a search for nameA
+	//temporarily using a call-by-reference
 	
+	nameA.setName(nameB);
 }
 
 //makes deep copy of directory/file nameA to nameB

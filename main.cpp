@@ -40,6 +40,8 @@ int main()
 	Manager newMan;
 	newMan.ls(root);
 	newMan.pwd(dir3);
+	newMan.mv(dir3, "directory 3");
+	newMan.pwd(dir3);
 	
 	return 0;
 }
