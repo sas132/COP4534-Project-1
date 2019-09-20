@@ -24,7 +24,7 @@ void Manager::ls(FileDirectory &tempDir)
 		while(tempDir2 != nullptr){
 			if(tempDir2->getDirectory() == true)
 			{
-			std::cout << "D BIIIIITCH\n";
+			std::cout << "D ";
 			}
 			else
 			{
@@ -43,20 +43,30 @@ FileDirectory* Manager::mkdir(std::string name, bool isDir)
 	newDir->setSibling(currentDir->getChild());
 	currentDir->setChild(newDir);
 	std::cout << currentDir->getChild()->getName() << std::endl;
-	ls(*currentDir);
 	return currentDir;
 }
 
 //changes active directory. if ".." then change to parent.
 void Manager::cd(std::string name)
 {
+	FileDirectory* tempDir;
 	if(name == "..")
 	{
-		currentDir = currentDir->getParent();
+		tempDir = currentDir->getParent();
 	}
 	else
 	{
-		
+		tempDir = search(name, currentDir);
+	}
+
+	if(tempDir != nullptr && tempDir->getDirectory() != false)
+	{
+		currentDir = tempDir;
+		std::cout << pwd(currentDir);
+	}
+	else
+	{
+		std::cout << "that directory does not exist.";
 	}
 }
 
@@ -105,37 +115,37 @@ FileDirectory* Manager::search(std::string name, FileDirectory* tempDir)
 {
 	if(tempDir->getName() == name)
 	{
-		tempDir = tempDir->getParent();
 		return tempDir;
 	}
 	else if(tempDir->getSibling() != nullptr || tempDir->getChild() !=nullptr)
 	{
 		if(tempDir->getSibling() != nullptr)
 		{
+			std::cout << tempDir->getName() << std::endl;
 			return search(name, tempDir->getSibling());
 		}
 		if(tempDir->getChild() != nullptr)
 		{
+			std::cout << tempDir->getName() << std::endl;
 			return search(name, tempDir->getChild());
 		}
 	}
-	return nullptr;
+	else
+	{
+		return nullptr;
+	}
 }
 
-void Manager::handler(std::string command[4][3])
+void Manager::handler(std::string command[7][3])
 {
-	std::cout << "made it to the function\n";
-	for(int i = 0; i < 4; i++){
+	for(int i = 0; i < 7; i++){
 	if(command[i][0] == "ls")
 	{
-		std::cout << "made it to the right command\n";
 		ls(*currentDir);
 	}
 	else if(command[i][0] == "mkdir")
 	{
-		FileDirectory* fildr = mkdir(command[i][1], true);
-		std::cout << "made the directory.\n";
-		ls(*fildr);
+		mkdir(command[i][1], true);
 	}
 	else if(command[i][0] == "cd")
 	{
@@ -143,7 +153,7 @@ void Manager::handler(std::string command[4][3])
 	}
 	else if(command[i][0] == "pwd")
 	{
-		pwd(currentDir);
+		std::cout << pwd(currentDir);
 	}
 	else if(command[i][0] == "addf")
 	{
@@ -169,6 +179,6 @@ void Manager::handler(std::string command[4][3])
 	else if(command[i][0] == "whereis")
 	{
 		FileDirectory* tempDir = search(command[i][1], currentDir);
-		std::cout << pwd(tempDir);
+		std::cout << pwd(tempDir->getParent());
 	}}
 }
