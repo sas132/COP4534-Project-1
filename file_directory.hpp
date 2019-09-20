@@ -18,6 +18,7 @@ public:
 	FileDirectory();
 	FileDirectory(const FileDirectory& origFileDir);
 	FileDirectory(std::string newName);
+	~FileDirectory();
 	FileDirectory(std::string newName, bool isDir);
 	void setParent(FileDirectory* newParent);
 	FileDirectory* getParent();

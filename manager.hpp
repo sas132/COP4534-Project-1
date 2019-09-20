@@ -19,8 +19,9 @@ public:
 	void addf(std::string name); //adds a new file as child of current directory
 	void mv(std::string nameA, std::string nameB); //renames directory/file nameA to nameB
 	void cp(std::string nameA, std::string nameB); //makes deep copy of directory/file nameA to nameB
+	void copySibling(FileDirectory* tempChild, FileDirectory* tempParent);
 	void rm(FileDirectory* tempDir); //locates and deletes file or directory
-	void bye(); //exits the program
+	void deleteSiblings(FileDirectory* tempDir);
 	FileDirectory* search(std::string name, FileDirectory* tempDir);
 	void handler(std::string command[5][3]);	
 };

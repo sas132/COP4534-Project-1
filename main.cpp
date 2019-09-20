@@ -53,7 +53,7 @@ int main()
 	
 
 	Manager newMan;
-	std::string commands[21][3] = {	{"ls", "", ""}, //0
+	std::string commands[26][3] = {	{"ls", "", ""}, //0
 					{"mkdir", "dir1", ""}, //1
 					{"addf", "fil1", ""}, //2
 					{"mkdir", "dir2", ""}, //3
@@ -73,7 +73,12 @@ int main()
 					{"mv", "file 2", "file file 2"}, //17
 					{"cd", "..", ""}, //18
 					{"cd", "directory 2", ""}, //19
-					{"ls", "", ""} //20
+					{"ls", "", ""}, //20
+					{"cd", "..", ""}, //21
+					{"ls", "", ""}, //22
+					{"rm", "directory 2", ""}, //23
+					{"ls", "", ""}, //24
+					{"bye", "", ""} //25
 				     };
 	newMan.handler(commands);
 	return 0;

@@ -15,10 +15,9 @@ FileDirectory::FileDirectory()
 //copy constructor
 FileDirectory::FileDirectory(const FileDirectory& origFileDir)
 {
-	std::cout << "made copy constructor\n";
 	parent = origFileDir.parent;
-	sibling = origFileDir.sibling;
-	child = origFileDir.child;
+	sibling = nullptr;
+	child = nullptr;
 	name = origFileDir.name;
 	isDirectory = origFileDir.isDirectory;
 }
@@ -31,6 +30,11 @@ FileDirectory::FileDirectory(std::string newName, bool isDir)
 	sibling = nullptr;
 	name = newName;
 	isDirectory = isDir;
+}
+
+FileDirectory::~FileDirectory()
+{
+
 }
 
 //for updating parent

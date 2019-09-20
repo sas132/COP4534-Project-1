@@ -56,17 +56,17 @@ void Manager::cd(std::string name)
 	}
 	else
 	{
-		tempDir = search(name, currentDir->getChild());
+		tempDir = search(name, currentDir);
 	}
 
-	if(tempDir != nullptr && tempDir->getDirectory() != false)
+	if(tempDir->getDirectory() != false)
 	{
 		currentDir = tempDir;
 		std::cout << pwd(currentDir);
 	}
 	else
 	{
-		std::cout << "that directory does not exist.";
+		std::cout << "that directory does not exist.\n";
 	}
 }
 
@@ -103,23 +103,61 @@ void Manager::cp(std::string nameA, std::string nameB)
 	tempDir2->setSibling(tempSib);
 	currentDir->setChild(tempDir2);
 	tempDir2->setParent(currentDir);
+	
+	tempDir = tempDir->getChild();
+	
+	while(tempDir != nullptr)
+	{
+		copySibling(tempDir, tempDir2);
+		tempDir = tempDir->getSibling();
+	}
+}
+
+void Manager::copySibling(FileDirectory* tempChild, FileDirectory* tempParent)
+{
+	FileDirectory* tempChildCopy = new FileDirectory(*tempChild);
+	FileDirectory* tempSibl = tempParent->getChild();
+	tempChildCopy->setSibling(tempSibl);
+	tempParent->setChild(tempChildCopy);
+	tempChildCopy->setParent(tempParent);
+
+	if(tempChild->getChild() != nullptr)
+	{
+		copySibling(tempChild->getChild(), tempChild);
+	}
 }
 
 //locates and deletes file or directory
 void Manager::rm(FileDirectory* tempDir)
 {
-
+	if(tempDir->getChild() != nullptr)
+	{
+		deleteSiblings(tempDir->getChild());
+	}
+	if(tempDir->getName() != "root")
+	{
+		tempDir->getParent()->setChild(tempDir->getSibling());
+		std::cout << "deleting " << tempDir->getName() << std::endl;
+		delete tempDir;
+	}
 }
 
-//exits the program
-void Manager::bye()
+void Manager::deleteSiblings(FileDirectory* tempDir)
 {
-	//must send all files to be deleted
+	if(tempDir->getChild() != nullptr)
+	{
+		deleteSiblings(tempDir->getChild());
+	}
+	if(tempDir->getSibling() != nullptr)
+	{
+		deleteSiblings(tempDir->getSibling());
+	}
+	std::cout << "deleting " << tempDir->getName() << std::endl;
+	delete tempDir;
 }
 
 FileDirectory* Manager::search(std::string name, FileDirectory* tempDir)
 {
-	FileDirectory* tempDir2;
 	if(tempDir->getName() == name)
 	{
 		return tempDir;
@@ -128,20 +166,22 @@ FileDirectory* Manager::search(std::string name, FileDirectory* tempDir)
 	{
 		if(tempDir->getSibling() != nullptr)
 		{
-			tempDir2 = search(name, tempDir->getSibling());
+			return search(name, tempDir->getSibling());
 		}
 		if(tempDir->getChild() != nullptr)
 		{
-			FileDirectory* tempDir2 = search(name, tempDir->getChild());
+			return search(name, tempDir->getChild());
 		}
 	}
-	
-	return tempDir2;
+	else
+	{
+		return nullptr;
+	}
 }
 
-void Manager::handler(std::string command[21][3])
+void Manager::handler(std::string command[26][3])
 {
-	for(int i = 0; i < 21; i++){
+	for(int i = 0; i < 26; i++){
 	std::cout << "command: " << i << std::endl;
 	if(command[i][0] == "ls")
 	{
