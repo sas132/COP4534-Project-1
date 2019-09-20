@@ -89,8 +89,8 @@ std::string Manager::pwd(FileDirectory* tempDir)
 void Manager::mv(std::string nameA, std::string nameB)
 {
 	//need to implement a search for nameA
-	//temporarily using a call-by-reference
-
+	FileDirectory* tempDir = search(nameA, currentDir);
+	tempDir->setName(nameB);
 }
 
 //makes deep copy of directory/file nameA to nameB
@@ -136,9 +136,9 @@ FileDirectory* Manager::search(std::string name, FileDirectory* tempDir)
 	}
 }
 
-void Manager::handler(std::string command[7][3])
+void Manager::handler(std::string command[10][3])
 {
-	for(int i = 0; i < 7; i++){
+	for(int i = 0; i < 10; i++){
 	if(command[i][0] == "ls")
 	{
 		ls(*currentDir);
