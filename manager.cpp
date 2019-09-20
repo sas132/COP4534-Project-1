@@ -56,7 +56,7 @@ void Manager::cd(std::string name)
 	}
 	else
 	{
-		tempDir = search(name, currentDir);
+		tempDir = search(name, currentDir->getChild());
 	}
 
 	if(tempDir != nullptr && tempDir->getDirectory() != false)
@@ -89,14 +89,20 @@ std::string Manager::pwd(FileDirectory* tempDir)
 void Manager::mv(std::string nameA, std::string nameB)
 {
 	//need to implement a search for nameA
-	FileDirectory* tempDir = search(nameA, currentDir);
+	FileDirectory* tempDir = search(nameA, currentDir->getChild());
 	tempDir->setName(nameB);
 }
 
 //makes deep copy of directory/file nameA to nameB
 void Manager::cp(std::string nameA, std::string nameB)
 {
-
+	FileDirectory* tempDir = search(nameA, currentDir->getChild());
+	FileDirectory* tempDir2 = new FileDirectory(*tempDir);
+	tempDir2->setName(nameB);
+	FileDirectory* tempSib = currentDir->getChild();
+	tempDir2->setSibling(tempSib);
+	currentDir->setChild(tempDir2);
+	tempDir2->setParent(currentDir);
 }
 
 //locates and deletes file or directory
@@ -113,6 +119,7 @@ void Manager::bye()
 
 FileDirectory* Manager::search(std::string name, FileDirectory* tempDir)
 {
+	FileDirectory* tempDir2;
 	if(tempDir->getName() == name)
 	{
 		return tempDir;
@@ -121,24 +128,21 @@ FileDirectory* Manager::search(std::string name, FileDirectory* tempDir)
 	{
 		if(tempDir->getSibling() != nullptr)
 		{
-			std::cout << tempDir->getName() << std::endl;
-			return search(name, tempDir->getSibling());
+			tempDir2 = search(name, tempDir->getSibling());
 		}
 		if(tempDir->getChild() != nullptr)
 		{
-			std::cout << tempDir->getName() << std::endl;
-			return search(name, tempDir->getChild());
+			FileDirectory* tempDir2 = search(name, tempDir->getChild());
 		}
 	}
-	else
-	{
-		return nullptr;
-	}
+	
+	return tempDir2;
 }
 
-void Manager::handler(std::string command[10][3])
+void Manager::handler(std::string command[21][3])
 {
-	for(int i = 0; i < 10; i++){
+	for(int i = 0; i < 21; i++){
+	std::cout << "command: " << i << std::endl;
 	if(command[i][0] == "ls")
 	{
 		ls(*currentDir);

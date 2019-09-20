@@ -1,5 +1,6 @@
 #include "file_directory.hpp"
 #include <string>
+#include <iostream>
 
 //for declaring root
 FileDirectory::FileDirectory()
@@ -9,6 +10,17 @@ FileDirectory::FileDirectory()
 	sibling = nullptr;
 	name = "root";
 	isDirectory = true;
+}
+
+//copy constructor
+FileDirectory::FileDirectory(const FileDirectory& origFileDir)
+{
+	std::cout << "made copy constructor\n";
+	parent = origFileDir.parent;
+	sibling = origFileDir.sibling;
+	child = origFileDir.child;
+	name = origFileDir.name;
+	isDirectory = origFileDir.isDirectory;
 }
 
 //for declaring any directories
