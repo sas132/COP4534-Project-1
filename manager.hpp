@@ -22,7 +22,7 @@ public:
 	void rm(FileDirectory* tempDir); //locates and deletes file or directory
 	void bye(); //exits the program
 	FileDirectory* search(std::string name, FileDirectory* tempDir);
-	void handler(std::string command[3][3]);	
+	void handler(std::string command[4][3]);	
 };
 
 #endif

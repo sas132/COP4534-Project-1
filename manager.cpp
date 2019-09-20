@@ -61,10 +61,9 @@ void Manager::cd(std::string name)
 }
 
 //gives path of current directory as "Sarah/root/nextdir/etc"
-std::string Manager::pwd(FileDirectory* currentDir)
+std::string Manager::pwd(FileDirectory* tempDir)
 {
 	std::string totalPath = "";
-	FileDirectory* tempDir = currentDir;
 	
 	while(tempDir != nullptr){
 		totalPath = ("/" + tempDir->getName()) + totalPath;
@@ -123,10 +122,10 @@ FileDirectory* Manager::search(std::string name, FileDirectory* tempDir)
 	return nullptr;
 }
 
-void Manager::handler(std::string command[3][3])
+void Manager::handler(std::string command[4][3])
 {
 	std::cout << "made it to the function\n";
-	for(int i = 0; i < 3; i++){
+	for(int i = 0; i < 4; i++){
 	if(command[i][0] == "ls")
 	{
 		std::cout << "made it to the right command\n";
@@ -170,6 +169,6 @@ void Manager::handler(std::string command[3][3])
 	else if(command[i][0] == "whereis")
 	{
 		FileDirectory* tempDir = search(command[i][1], currentDir);
-		pwd(tempDir);
+		std::cout << pwd(tempDir);
 	}}
 }
