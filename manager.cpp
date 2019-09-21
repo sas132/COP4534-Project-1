@@ -9,6 +9,11 @@ Manager::Manager()
 	root = currentDir;
 }
 
+Manager::~Manager()
+{
+
+}
+
 //lists all files/directories in current directory
 void Manager::ls(FileDirectory &tempDir)
 {
@@ -19,7 +24,6 @@ void Manager::ls(FileDirectory &tempDir)
 	}
 	else
 	{
-		std::cout << tempDir2->getName() << " has the following children:\n";
 		tempDir2 = tempDir2->getChild();
 		while(tempDir2 != nullptr){
 			if(tempDir2->getDirectory() == true)
@@ -42,7 +46,6 @@ FileDirectory* Manager::mkdir(std::string name, bool isDir)
 	newDir->setParent(currentDir);
 	newDir->setSibling(currentDir->getChild());
 	currentDir->setChild(newDir);
-	std::cout << currentDir->getChild()->getName() << std::endl;
 	return currentDir;
 }
 
@@ -59,7 +62,7 @@ void Manager::cd(std::string name)
 		tempDir = search(name, currentDir);
 	}
 
-	if(tempDir->getDirectory() != false)
+	if(tempDir != nullptr && tempDir->getDirectory() != false)
 	{
 		currentDir = tempDir;
 		std::cout << pwd(currentDir);
@@ -89,8 +92,15 @@ std::string Manager::pwd(FileDirectory* tempDir)
 void Manager::mv(std::string nameA, std::string nameB)
 {
 	//need to implement a search for nameA
-	FileDirectory* tempDir = search(nameA, currentDir->getChild());
-	tempDir->setName(nameB);
+	FileDirectory* tempDir = search(nameA, currentDir);
+	if(tempDir == nullptr)
+	{
+		std::cout << "that file or directory does not exist.\n";
+	}
+	else
+	{
+		tempDir->setName(nameB);
+	}
 }
 
 //makes deep copy of directory/file nameA to nameB
@@ -136,8 +146,20 @@ void Manager::rm(FileDirectory* tempDir)
 	}
 	if(tempDir->getName() != "root")
 	{
-		tempDir->getParent()->setChild(tempDir->getSibling());
-		std::cout << "deleting " << tempDir->getName() << std::endl;
+		if(tempDir->getParent()->getChild()->getName() == tempDir->getName())
+		{
+			tempDir->getParent()->setChild(tempDir->getSibling());
+		}
+		else
+		{
+			FileDirectory* tempSib = tempDir->getParent()->getChild();
+			while(tempSib->getSibling()->getName() != tempDir->getName())
+			{	
+				tempSib = tempSib->getSibling();
+			}
+
+			tempSib->setSibling(tempDir->getSibling());
+		}
 		delete tempDir;
 	}
 }
@@ -152,7 +174,6 @@ void Manager::deleteSiblings(FileDirectory* tempDir)
 	{
 		deleteSiblings(tempDir->getSibling());
 	}
-	std::cout << "deleting " << tempDir->getName() << std::endl;
 	delete tempDir;
 }
 
@@ -179,50 +200,62 @@ FileDirectory* Manager::search(std::string name, FileDirectory* tempDir)
 	}
 }
 
-void Manager::handler(std::string command[26][3])
+void Manager::handler(std::string command, std::string firstWord, std::string secondWord)
 {
-	for(int i = 0; i < 26; i++){
-	std::cout << "command: " << i << std::endl;
-	if(command[i][0] == "ls")
+	if(command == "ls")
 	{
 		ls(*currentDir);
 	}
-	else if(command[i][0] == "mkdir")
+	else if(command == "mkdir")
 	{
-		mkdir(command[i][1], true);
+		mkdir(firstWord, true);
 	}
-	else if(command[i][0] == "cd")
+	else if(command == "cd")
 	{
-		cd(command[i][1]);
+		cd(firstWord);
 	}
-	else if(command[i][0] == "pwd")
+	else if(command == "pwd")
 	{
 		std::cout << pwd(currentDir);
 	}
-	else if(command[i][0] == "addf")
+	else if(command == "addf")
 	{
-		mkdir(command[i][1], false);
+		mkdir(firstWord, false);
 	}
-	else if(command[i][0] == "mv")
+	else if(command == "mv")
 	{
-		mv(command[i][1], command[i][2]);
+		mv(firstWord, secondWord);
 	}
-	else if(command[i][0] == "cp")
+	else if(command == "cp")
 	{
-		cp(command[i][1], command[i][2]);
+		cp(firstWord, secondWord);
 	}
-	else if(command[i][0] == "rm")
+	else if(command == "rm")
 	{
-		FileDirectory* tempDir = search(command[i][1], currentDir);
-		rm(tempDir);
+		FileDirectory* tempDir = search(firstWord, currentDir);
+		if(tempDir != nullptr)
+		{
+			rm(tempDir);
+		}
+		else
+		{
+			std::cout << firstWord << " does not exist.\n";
+		}
 	}
-	else if(command[i][0] == "bye")
+	else if(command == "bye")
 	{
 		rm(root);
 	}
-	else if(command[i][0] == "whereis")
+	else if(command == "whereis")
 	{
-		FileDirectory* tempDir = search(command[i][1], currentDir);
-		std::cout << pwd(tempDir->getParent());
-	}}
+		FileDirectory* tempDir = search(firstWord, root);
+		if(tempDir != nullptr)
+		{
+			std::cout << pwd(tempDir->getParent());
+		}
+		else
+		{
+			std::cout << firstWord << " does not exist.\n";
+		}
+	}
 }

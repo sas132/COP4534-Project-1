@@ -1,6 +1,4 @@
 #include "file_reader.hpp"
-#include "manager.hpp"
-#include "file_directory.hpp"
 #include <iostream>
 
 int main()
@@ -52,7 +50,7 @@ int main()
 	//std::cout << newMan.whereis(test2, &root);*/
 	
 
-	Manager newMan;
+	/*Manager newMan;
 	std::string commands[26][3] = {	{"ls", "", ""}, //0
 					{"mkdir", "dir1", ""}, //1
 					{"addf", "fil1", ""}, //2
@@ -80,6 +78,7 @@ int main()
 					{"ls", "", ""}, //24
 					{"bye", "", ""} //25
 				     };
-	newMan.handler(commands);
+	newMan.handler(commands);*/
+	FileReader* newFile = new FileReader();
 	return 0;
 }

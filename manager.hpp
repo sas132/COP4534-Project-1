@@ -12,6 +12,7 @@ private:
 	FileDirectory* root;
 public:
 	Manager(); //how will this be used??
+	~Manager();
 	void ls(FileDirectory &tempDir); //lists all files/directories in current directory
 	FileDirectory* mkdir(std::string name, bool isDir);
 	void cd(std::string name); //changes active directory. if ".." then change to parent.
@@ -23,7 +24,7 @@ public:
 	void rm(FileDirectory* tempDir); //locates and deletes file or directory
 	void deleteSiblings(FileDirectory* tempDir);
 	FileDirectory* search(std::string name, FileDirectory* tempDir);
-	void handler(std::string command[5][3]);	
+	void handler(std::string command, std::string firstWord, std::string secondWord);	
 };
 
 #endif
