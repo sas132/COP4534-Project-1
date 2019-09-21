@@ -22,7 +22,8 @@ FileDirectory::FileDirectory(const FileDirectory& origFileDir)
 	isDirectory = origFileDir.isDirectory;
 }
 
-//for declaring any directories
+//for declaring any directories and files
+//isDir = true is directory
 FileDirectory::FileDirectory(std::string newName, bool isDir)
 {
 	parent = nullptr;
@@ -32,6 +33,7 @@ FileDirectory::FileDirectory(std::string newName, bool isDir)
 	isDirectory = isDir;
 }
 
+//destructor, for in event of "bye" command
 FileDirectory::~FileDirectory()
 {
 

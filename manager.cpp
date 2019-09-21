@@ -3,12 +3,14 @@
 #include <iostream>
 #include <string>
 
+//default constructor, makes current directory and root
 Manager::Manager()
 {
 	currentDir = new FileDirectory();
 	root = currentDir;
 }
 
+//destructor, for in event of "bye" command
 Manager::~Manager()
 {
 
@@ -40,6 +42,8 @@ void Manager::ls(FileDirectory &tempDir)
 	}
 }
 
+//makes any file or directory
+//isDir = true is directory
 FileDirectory* Manager::mkdir(std::string name, bool isDir)
 {
 	FileDirectory* newDir = new FileDirectory(name, isDir);
@@ -91,7 +95,6 @@ std::string Manager::pwd(FileDirectory* tempDir)
 //renames directory/file nameA to nameB
 void Manager::mv(std::string nameA, std::string nameB)
 {
-	//need to implement a search for nameA
 	FileDirectory* tempDir = search(nameA, currentDir);
 	if(tempDir == nullptr)
 	{
@@ -123,6 +126,7 @@ void Manager::cp(std::string nameA, std::string nameB)
 	}
 }
 
+//helper function for cp, so not to accidentally point towards original node's sibling
 void Manager::copySibling(FileDirectory* tempChild, FileDirectory* tempParent)
 {
 	FileDirectory* tempChildCopy = new FileDirectory(*tempChild);
@@ -164,6 +168,7 @@ void Manager::rm(FileDirectory* tempDir)
 	}
 }
 
+//helper function for rm, so not to accidentally delete original node's siblings
 void Manager::deleteSiblings(FileDirectory* tempDir)
 {
 	if(tempDir->getChild() != nullptr)
@@ -177,6 +182,7 @@ void Manager::deleteSiblings(FileDirectory* tempDir)
 	delete tempDir;
 }
 
+//search function, returns the found node or nullptr
 FileDirectory* Manager::search(std::string name, FileDirectory* tempDir)
 {
 	if(tempDir->getName() == name)
@@ -200,6 +206,7 @@ FileDirectory* Manager::search(std::string name, FileDirectory* tempDir)
 	}
 }
 
+//handles all inputted commands and sends to proper function
 void Manager::handler(std::string command, std::string firstWord, std::string secondWord)
 {
 	if(command == "ls")

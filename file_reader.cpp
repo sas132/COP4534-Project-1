@@ -4,6 +4,7 @@
 #include <string>
 #include "manager.hpp"
 
+//default constructor, makes Manager and accepts input from commands.txt, sends commands to testWords
 FileReader::FileReader()
 {
 	newMan = new Manager();
@@ -17,6 +18,7 @@ FileReader::FileReader()
 	}
 }
 
+//goes through each line, making the command, first, and second words to sent to Manager.handler
 void FileReader::testWords(std::string words)
 {
 	char tempChar;
